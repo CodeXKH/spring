@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Thymeleaf tutorial: exercise 10</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/Huploadify.css}" />
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/Huploadify.js}"></script>
+
+
+<meta charset="utf-8" />
+</head>
+
+<body>
+	<img src="" alt="" class="cardImg" id="imgid" />
+	<!--预览图片-->
+	<div id="fileid"></div>
+	<!--图片上传按钮-->
+
+<span th:text="${upload}"></span>
+
+	<script type="text/javascript" th:inline="javascript">
+		/* 
+		 *图片上传公共方法 
+		 *domName  图片上传的div的ID 
+		 *domPic  显示上传后图片img的ID，如无图片预览可不设置 
+		 */
+		function uploadInit(domName, domPic) {
+			$("#" + domName).Huploadify({
+				auto : true,
+				fileTypeExts : '*.*',
+				multi : false,
+				fileObjName : 'Filedata',
+				fileSizeLimit : 99999999999,
+				showUploadedPercent : false,
+				buttonText : '上传',
+				uploader : "http://localhost:8080/upload/file",
+				//uploader : "@{/upload/file}",
+				onUploadSuccess : function(file, data) {
+					var Data = JSON.parse(data);
+/* 					if (Data.success == true) {
+						$("#" + domPic).attr("src", Data.result);
+						param.uploadsuccess(Data.result);
+					} else {
+						jQuery.longhz.alert(Data.resultDes);
+					} */
+				},
+				onUploadError : function(file, response) {
+					jQuery.longhz.alert("上传失败!");
+				}
+			});
+
+		}
+		//调用公共方法  
+		uploadInit("fileid", "imgid");
+		
+	</script>
+</body>
+
+</html>
